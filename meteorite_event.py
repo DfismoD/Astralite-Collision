@@ -2,10 +2,9 @@ import pygame
 from meteorite import Meteorite
 
 class MeteoriteFallEvent:
-    def __init__(self, game=None):
+    def __init__(self):
         self.percent = 0
         self.percent_speed = 50
-        self.game = game
 
         self.all_meteorite = pygame.sprite.Group()
 

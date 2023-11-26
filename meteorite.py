@@ -9,7 +9,6 @@ class Meteorite(pygame.sprite.Sprite):
         self.velocity = random.randint(1, 3)
         self.rect.x = random.randint(20, 1920)
         self.meteorite_event = meteorite_event
-        # self.laser = Laser(self)
     
     def remove(self):
         self.meteorite_event.all_meteorite.remove(self)
@@ -20,10 +19,7 @@ class Meteorite(pygame.sprite.Sprite):
         if self.rect.y >= 1000:
             self.remove()
 
-        if self.meteorite_event.game.chek_collision(self.meteorite_event.game.player, self.meteorite_event.all_meteorite):
-            self.remove()
-            self.meteorite_event.game.player.damage(1)
-
-        # if self.meteorite_event.game.chek_collision(self.meteorite_event.laser, self.meteorite_event.all_meteorite):
+        # if self.meteorite_event.game.chek_collision(self.meteorite_event.game.player, self.meteorite_event.all_meteorite):
+        #     print("joueur toucher")
         #     self.remove()
-        #     print("azi c bon")
+        #     self.meteorite_event.game.player.damage(1)

@@ -1,17 +1,25 @@
 import pygame
 from player import Player
 from meteorite_event import MeteoriteFallEvent
-from laser import Laser
 
 class Game:
     def __init__(self, screen ,screen_size):
         self.screen = screen
         self.screen_size = screen_size
 
-        # self.all_players = pygame.sprite.Group()
         self.player = Player()
-        self.meteorite_event =  MeteoriteFallEvent(self)
-        self.laser = Laser(self)
+        self.all_players = pygame.sprite.Group()
+
+        self.meteorite_event = MeteoriteFallEvent()
+
+        self.img_life_bar = pygame.image.load("assets/life_bar.png")
+        self.img_life_bar = pygame.transform.scale(self.img_life_bar, (self.screen_size[0]/4, self.screen_size[1]/15))
+        self.img_life_bar_size = self.img_life_bar.get_size()
+        self.img_life_bar_position = (10, self.screen_size[1] - self.img_life_bar_size[1] - 10)
+
+        self.img_ulti_bar = pygame.image.load("assets/ulti_bar.png")
+        self.img_ulti_bar = pygame.transform.scale(self.img_ulti_bar, (self.screen_size[0]/4, self.screen_size[1]/15))
+        self.img_ulti_bar_size = self.img_ulti_bar.get_height()
 
         pygame.display.set_caption("Astralite Collision: Game")
 
@@ -21,9 +29,7 @@ class Game:
 
     def font(self, size):
         return pygame.font.Font("assets/font.ttf", size)
-    
-    def chek_collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False)
+ 
 
     def main(self):
         run = True
@@ -35,28 +41,27 @@ class Game:
             self.screen.blit(self.background, (0, 0))
 
             self.level = 0
-            self.lives = self.player.health
-
+            
+            self.player.handle_input()
             self.screen.blit(self.player.img, self.player.rect)
-
-            self.meteorite_event.update_bar(self.screen)
-            self.meteorite_event.all_meteorite.draw(self.screen)
+            self.player.update_health_bar(self.screen, self.img_life_bar_position)
 
             for laser in self.player.all_lasers:
                 laser.move()
 
             self.player.all_lasers.draw(self.screen)
 
+            self.meteorite_event.update_bar(self.screen)
+            self.meteorite_event.all_meteorite.draw(self.screen)
+
             for meteorite in self.meteorite_event.all_meteorite:
                 meteorite.fall()
 
-            text_lives = self.font(75).render(f"Vies: {self.lives}", 1, "WHITE")
-            text_level = self.font(75).render(f"Niveau: {self.level}", 1, "WHITE")
-
+            text_level = self.font(75).render(f"NIVEAU: {self.level}", 1, "WHITE")
             self.screen.blit(text_level, (10, 0))
-            self.screen.blit(text_lives, (self.screen_size[0] - text_lives.get_width() - 10, 0))
 
-            self.player.handle_input()
+            self.screen.blit(self.img_life_bar, self.img_life_bar_position)
+            self.screen.blit(self.img_ulti_bar, (10, self.screen_size[1] - self.img_life_bar_size[1] - self.img_ulti_bar_size - 20))
 
             pygame.display.flip()
 
