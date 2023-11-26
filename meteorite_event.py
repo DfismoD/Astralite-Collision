@@ -2,7 +2,7 @@ import pygame
 from meteorite import Meteorite
 
 class MeteoriteFallEvent:
-    def __init__(self, game):
+    def __init__(self, game=None):
         self.percent = 0
         self.percent_speed = 50
         self.game = game

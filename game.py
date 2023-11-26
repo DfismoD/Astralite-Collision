@@ -1,6 +1,7 @@
 import pygame
 from player import Player
 from meteorite_event import MeteoriteFallEvent
+from laser import Laser
 
 class Game:
     def __init__(self, screen ,screen_size):
@@ -10,6 +11,7 @@ class Game:
         # self.all_players = pygame.sprite.Group()
         self.player = Player()
         self.meteorite_event =  MeteoriteFallEvent(self)
+        self.laser = Laser(self)
 
         pygame.display.set_caption("Astralite Collision: Game")
 
