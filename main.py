@@ -1,6 +1,8 @@
 import pygame, math
 from button import Button
 from game import Game
+from garage import Garage
+from score import Score
 
 # Initializqsation de pygame
 pygame.init()
@@ -24,10 +26,22 @@ img_astralite_logo_rect = img_astralite_logo.get_rect()
 img_astralite_logo_rect.x = math.ceil(screen_size[0]/3)
 
 img_play_btn = pygame.image.load("assets/play_button.png")
-img_play_btn = pygame.transform.scale(img_play_btn, (screen_size[0]/4, screen_size[1]/2))
-img_play_btn_rect = img_astralite_logo.get_rect() 
-img_play_btn_rect.x = math.ceil(screen_size[0]/2)
+img_play_btn = pygame.transform.scale(img_play_btn, (screen_size[0]/3, screen_size[1]/2))
+img_play_btn_rect = img_play_btn.get_rect() 
+img_play_btn_rect.x = math.ceil(screen_size[0]/3)
 img_play_btn_rect.y = math.ceil(screen_size[1]/2)
+
+img_garage_btn = pygame.image.load("assets/garage_button.png")
+img_garage_btn = pygame.transform.scale(img_garage_btn, (screen_size[0]/3, screen_size[1]/2))
+img_garage_btn_rect = img_garage_btn.get_rect() 
+img_garage_btn_rect.x = math.ceil(screen_size[0]/3 * 2)
+img_garage_btn_rect.y = math.ceil(screen_size[1]/2)
+
+img_score_btn = pygame.image.load("assets/score_button.png")
+img_score_btn = pygame.transform.scale(img_score_btn, (screen_size[0]/3, screen_size[1]/2))
+img_score_btn_rect = img_score_btn.get_rect() 
+img_score_btn_rect.x = math.ceil(screen_size[0]/2)
+img_score_btn_rect.y = math.ceil(screen_size[1]/3 * 2.25)
 
 # Initialisation de la fenêtre
 run = True
@@ -52,12 +66,14 @@ while run:
     # burger_button = Button(image=img_burger_button, pos=img_burger_button_rect, text_input="", font="", base_color=font_color)
 
     play_button = Button(image=img_play_btn, pos=img_play_btn_rect, text_input="", font=font(75), base_color=font_color)
+    garage_button = Button(image=img_garage_btn, pos=img_garage_btn_rect, text_input="", font=font(75), base_color=font_color)
+    score_button = Button(image=img_score_btn, pos=img_score_btn_rect, text_input="", font=font(75), base_color=font_color)
 
     screen.fill(background_color)
     screen.blit(background, (0, 0))
     screen.blit(img_astralite_logo, img_astralite_logo_rect)
 
-    for button in [play_button]:
+    for button in [play_button, garage_button, score_button]:
         button.update(screen)
 
     pygame.display.flip()
@@ -69,6 +85,14 @@ while run:
             if play_button.chek(mouse_pos):
                 game = Game(screen, screen_size)
                 game.main()
+                pygame.display.quit()
+            if garage_button.chek(mouse_pos):
+                garage = Garage()
+                garage.main()
+                pygame.display.quit()
+            if score_button.chek(mouse_pos):
+                score = Score()
+                score.main()
                 pygame.display.quit()
     
     clock.tick(60)
