@@ -5,7 +5,7 @@ class Laser(pygame.sprite.Sprite):
     def __init__(self, player):
         super().__init__()
         
-        self.velocity = 25
+        self.velocity = 50
         self.player = player
         self.image = pygame.image.load("assets/laser_astralite.png")
         self.image = pygame.transform.scale(self.image, (10, 50))
