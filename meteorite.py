@@ -1,8 +1,9 @@
 import pygame, random
 
 class Meteorite(pygame.sprite.Sprite):
-    def __init__(self, meteorite_event):
+    def __init__(self, meteorite_event, game):
         super().__init__()
+        self.game = game
         self.image = pygame.image.load("assets/meteorite_astralite_1.png")
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
@@ -14,7 +15,8 @@ class Meteorite(pygame.sprite.Sprite):
         self.meteorite_event.all_meteorite.remove(self)
 
     def fall(self):
-        self.rect.y += self.velocity
+        if not self.check_meteorite_collision(self, self.game.all_players):
+            self.rect.y += self.velocity
 
         if self.rect.y >= 1000:
             self.remove()

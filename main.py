@@ -81,6 +81,8 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+        if keys_pressed[pygame.K_x]:
+            pygame.quit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if play_button.chek(mouse_pos):
                 game = Game(screen, screen_size)
