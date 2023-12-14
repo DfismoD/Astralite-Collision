@@ -29,7 +29,7 @@ play_button_rect = play_button.get_rect()
 play_button_rect.x = math.ceil(screen_size[0] / 2.65)
 play_button_rect.y = 120
 
-#charger notre jeu
+#charger notre jeu 
 game = Game(screen, screen_size)
 
 running = True
@@ -81,16 +81,13 @@ while running:
             if event.key == pygame.K_SPACE:
                 game.player.launch_projectile_right()
 
-
-            # elif event.key == pygame.K_a:
-            #     game.player.launch_projectile_left()
-
         elif event.type == pygame.KEYUP:
-            game.pressed[event.key] = False
+            game.pressed[event.key] = False # fait office d'une fonction input dirrectement proposée par pygame
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             #vérif pour savoir si la souris est en collision avec le bouton jouer
             if play_button_rect.collidepoint(event.pos):
                 #mettre le jeu en mode lancé
                 game.start()
+
     clock.tick(FPS)

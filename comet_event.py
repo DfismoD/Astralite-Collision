@@ -1,16 +1,20 @@
-import pygame
+import pygame, random
 from comet import Comet
+from cometbis import Cometbis
 
 #créer la classe de l'event
 class CometFallEvent:
 
     def __init__(self, game):
+        self.position_x_avant_suppression = 0
+        self.position_y_avant_suppression = 0
         self.percent = 0
         self.percent_speed = 100
         self.game = game
 
         #définir le grp de sprite pour stocker nos comètes
         self.comet = Comet(self)
+        self.comet_2 =  Cometbis(self)
         self.all_comets = pygame.sprite.Group()
 
     def add_percent(self):
@@ -23,7 +27,14 @@ class CometFallEvent:
         self.percent = 0
 
     def meteor_fall(self):
-        self.all_comets.add(Comet(self))
+        if self.game.score >= 500:
+            self.number = random.randint(0, 5)
+            if self.number <= 2:
+                self.all_comets.add(Cometbis(self))
+            else:
+                self.all_comets.add(Comet(self))
+        else:
+            self.all_comets.add(Comet(self))
     
     def attempt_fall(self):
         if self.is_full_loaded():
@@ -36,17 +47,3 @@ class CometFallEvent:
         self.add_percent()
 
         self.attempt_fall()
-
-        # pygame.draw.rect(surface, (0,0,0),[
-        #     0, #x
-        #     surface.get_height()-20, #y
-        #     surface.get_width(),
-        #     10
-        # ])
-
-        # pygame.draw.rect(surface, (187,11,11),[
-        #     0, #x
-        #     surface.get_height()-20, #y
-        #     (surface.get_width() / 100)*self.percent,
-        #     10
-        # ])

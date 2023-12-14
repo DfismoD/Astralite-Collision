@@ -3,7 +3,7 @@ from player import Player
 from comet import Comet
 from comet_event import CometFallEvent
 from pointbuff import Pointbuff
-from monster import Monster
+from bonus_vie import Bonus_vie
 
 # creer une 2e classe qui va repr le jeu
 class Game:
@@ -27,31 +27,34 @@ class Game:
         self.score = 0
         self.pressed = {}
 
-        self.monster = Monster(self)
-        self.all_monsters = pygame.sprite.Group()
+        self.bonus_vie = Bonus_vie(self)
+        self.all_bonus_vie = pygame.sprite.Group()
 
         self.hp_pos_x = 700
         self.hp_pos_y = 40
-        
-
 
     def start(self):
-        # if self.is_playing == False:
-            # self.spawn_monster()
-            # self.spawn_monster()
         self.is_playing = True
-
-    def def_hp_pos_x(self, amount):
-        self.monster.pos_x = amount
 
     def add_meteor1_score(self, points=100):
         self.score += points*self.player.boostcoef
+        if self.score >= 1000:
+            self.comet_event.percent_speed = 200
 
+    def add_meteor2_score(self, points=250):
+        self.score += points*self.player.boostcoef
+        if self.score >= 1000:
+            self.comet_event.percent_speed = 200
 
     def game_over(self):
         #remettre le jeu à neuf, retirer les monstres, remettre le joueur à 100hp et jeu en attente
         self.all_comets = pygame.sprite.Group()
+        for comet in self.comet_event.all_comets:
+            comet.remove()
         self.player.health = self.player.max_health
+        self.player.rect.x = self.screen_size[0]/2
+        self.player.rect.y = self.screen_size[1]/-100
+        self.comet_event.add_percent = 100
         self.is_playing = False
         self.score = 0
 
@@ -60,11 +63,7 @@ class Game:
         font = pygame.font.SysFont("monospace", 24)
         score_text = font.render(f"Score : {self.score}", 1, (255, 255, 255))
         # screen_size = screen.get_size()
-        
-        
-        
-
-        
+               
         #appliquer l'img de mon joueur
         screen.blit(self.player.image, self.player.rect)
 
@@ -79,9 +78,7 @@ class Game:
         self.comet_event.update_bar(screen)
 
         self.comet_event.comet.update_health_bar(screen)
-        
-        
-    
+                   
         # self.player.update_animation()
 
                 #récup les comètes
@@ -98,27 +95,21 @@ class Game:
 
 
         #récup les monstres
-        for monster in self.all_monsters:
-            monster.forward()
+        for bonus_vie in self.all_bonus_vie:
+            bonus_vie.forward()
             # monster.update_health_bar(screen)
-
-
-            
-            
 
         #aplliquer les projectiles
         self.player.all_projectiles.draw(screen)
         # self.player.all_leftprojectiles.draw(screen)
 
         # appliquer l'ennsemble des images de mon grp de monstre
-        self.all_monsters.draw(screen)
+        self.all_bonus_vie.draw(screen)
 
         self.all_pointbuffs.draw(screen)
 
         # appliquer l'ennsemble des images de mon grp de comètes
         self.comet_event.all_comets.draw(screen)
-
-        
 
         #verif si le joueur souhaite aller à gauche ou a droite
         if self.pressed.get(pygame.K_d) and self.player.rect.x + self.player.rect.width < screen.get_width():
@@ -127,10 +118,10 @@ class Game:
             self.player.move_left()
 
     def spawn_monster(self):
-        self.monster.pos_x = self.hp_pos_x
-        self.monster.pos_y = self.hp_pos_y
-        monster = Monster(self)
-        self.all_monsters.add(monster)
+        self.bonus_vie.pos_x = self.hp_pos_x
+        self.bonus_vie.pos_y = self.hp_pos_y
+        bonus_vie = Bonus_vie(self)
+        self.all_bonus_vie.add(bonus_vie)
 
     def spawn_pointbuff(self):
         self.pointbuff.pos_x = self.hp_pos_x
@@ -138,6 +129,5 @@ class Game:
         pointbuff = Pointbuff(self)
         self.all_pointbuffs.add(pointbuff)
         
-
     def check_collision(self, sprite, group):
         return pygame.sprite.spritecollide(sprite,group, False, pygame.sprite.collide_mask)
