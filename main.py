@@ -49,6 +49,13 @@ while running:
         #ajouter mon ecran de bienvenue
         screen.blit(play_button, play_button_rect)
         screen.blit(banner, banner_rect)
+
+        save = open("save.txt", "r")
+        best_score = save.read()
+        font = pygame.font.SysFont('Comic Sans MS', 30)
+        score = font.render(f"Meilleur score: {best_score}", False, (255, 255, 255))
+        score_rect = score.get_rect()
+        screen.blit(score, score_rect)
     
     if game.pressed.get(pygame.K_d):
         game.player.move_right()

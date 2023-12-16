@@ -1,4 +1,5 @@
 import pygame
+import numpy
 from player import Player
 from comet import Comet
 from comet_event import CometFallEvent
@@ -47,6 +48,16 @@ class Game:
             self.comet_event.percent_speed = 200
 
     def game_over(self):
+        save_read = open("save.txt", "r")
+        last_score = int(save_read.read())
+
+        if last_score < self.score:
+            save_score = self.score
+            save_write = open("save.txt", "w")
+            save_repr = repr(save_score)
+            save_write.write(save_repr)
+            save_write.close()
+
         #remettre le jeu à neuf, retirer les monstres, remettre le joueur à 100hp et jeu en attente
         self.all_comets = pygame.sprite.Group()
         for comet in self.comet_event.all_comets:
