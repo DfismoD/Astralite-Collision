@@ -44,6 +44,6 @@ class CometFallEvent:
 
     def update_bar(self, surface):
 
-        self.add_percent()
-
         self.attempt_fall()
+
+        self.add_percent()      

@@ -24,6 +24,7 @@ class Comet(pygame.sprite.Sprite):
         if self.health <= 0:
             self.remove()
             self.comet_event.game.add_meteor1_score()
+            self.comet_event.game.add_meteor1_xp()
             if random.randint(1,8) == 5:
                 self.comet_event.game.spawn_monster()
             elif random.randint(1,8) == 6:

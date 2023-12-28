@@ -1,5 +1,6 @@
 import pygame
 import numpy
+import math
 from player import Player
 from comet import Comet
 from comet_event import CometFallEvent
@@ -47,6 +48,18 @@ class Game:
         if self.score >= 1000:
             self.comet_event.percent_speed = 200
 
+    def add_meteor1_xp(self, points=5):
+        self.player.xp += points
+        if self.player.xp >= self.player.max_level_xp:
+            self.player.xp = 0
+            self.player.level += 1
+
+    def add_meteor2_xp(self, points=10):
+        self.player.xp += points
+        if self.player.xp >= self.player.max_level_xp:
+            self.player.xp = 0
+            self.player.level += 1
+
     def game_over(self):
         save_read = open("save.txt", "r")
         last_score = int(save_read.read())
@@ -64,12 +77,19 @@ class Game:
             comet.remove()
         self.player.health = self.player.max_health
         self.player.rect.x = self.screen_size[0]/2
-        self.player.rect.y = self.screen_size[1]/-100
-        self.comet_event.add_percent = 100
+        self.player.rect.y = self.screen_size[1]-200 
         self.is_playing = False
         self.score = 0
+        self.player.level = 0
 
     def update(self, screen):
+        #AFFICHER LE BOUTON QUITTER 
+        playing_quit_button = pygame.image.load('assets/Quitter.png')
+        playing_quit_button = pygame.transform.scale(playing_quit_button,(self.screen_size[0]/4, self.screen_size[1]/2.5))
+        playing_quit_button_rect = playing_quit_button.get_rect()
+        playing_quit_button_rect.x = math.ceil(self.screen_size[0] / 2.65)
+        playing_quit_button_rect.y = 120
+
         #afficher le score sur l'écran
         font = pygame.font.SysFont("monospace", 24)
         score_text = font.render(f"Score : {self.score}", 1, (255, 255, 255))
@@ -83,6 +103,12 @@ class Game:
         hp_bar = pygame.image.load('Assets/HP_bar.png')
         hp_bar = pygame.transform.scale(hp_bar,(500, 70))
         screen.blit(hp_bar, (self.screen_size[0]/20, self.screen_size[1]/1.12))
+        screen.blit(score_text, (self.screen_size[0]/2.15, 50))
+
+        self.player.update_xp_bar(screen)
+        xp_bar = pygame.image.load('Assets/EXP_bar.png')
+        xp_bar = pygame.transform.scale(xp_bar,(500, 70))
+        screen.blit(xp_bar, (self.screen_size[0]/20, self.screen_size[1]/1.232))
         screen.blit(score_text, (self.screen_size[0]/2.15, 50))
 
         #actu la barre d'event du jeu
@@ -127,6 +153,9 @@ class Game:
             self.player.move_right()
         elif self.pressed.get(pygame.K_q) and self.player.rect.x > 0:
             self.player.move_left()
+        if self.pressed.get(pygame.K_ESCAPE):
+            self.game_over()
+
 
     def spawn_monster(self):
         self.bonus_vie.pos_x = self.hp_pos_x

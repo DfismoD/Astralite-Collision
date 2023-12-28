@@ -2,15 +2,15 @@ import pygame
 
 
 #def la classe qui va gérer le projectile de notre joueur
-class Projectile(pygame.sprite.Sprite):
+class Projectile2(pygame.sprite.Sprite):
 
 
     #def le constructeur de cette classe
     def __init__(self, player):
         super().__init__()
-        self.velocity = 22
+        self.velocity = 25
         self.player = player
-        self.image = pygame.image.load('Assets/Laser_1.png')
+        self.image = pygame.image.load('Assets/Laser_2.png')
         self.image = pygame.transform.scale(self.image, (20,50))
         self.rect = self.image.get_rect()
         self.rect.x = player.rect.x + 86
