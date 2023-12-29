@@ -6,6 +6,7 @@ from comet import Comet
 from comet_event import CometFallEvent
 from pointbuff import Pointbuff
 from bonus_vie import Bonus_vie
+from sounds import SoundManager
 
 # creer une 2e classe qui va repr le jeu
 class Game:
@@ -22,6 +23,8 @@ class Game:
         self.comet_event = CometFallEvent(self)
         #grp de monstres
         self.all_comets = pygame.sprite.Group()
+
+        self.sound_manager = SoundManager()
 
         self.pointbuff = Pointbuff(self)
         self.all_pointbuffs = pygame.sprite.Group()
