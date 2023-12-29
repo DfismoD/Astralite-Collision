@@ -66,6 +66,7 @@ class Game:
     def game_over(self):
         save_read = open("save.txt", "r")
         last_score = int(save_read.read())
+        self.sound_manager.play('game_over')
 
         if last_score < self.score:
             save_score = self.score
