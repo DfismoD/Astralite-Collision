@@ -38,27 +38,50 @@ class Game:
         self.hp_pos_x = 700
         self.hp_pos_y = 40
 
+        self.music_on = 0
+
     def start(self):
         self.is_playing = True
-        self.sound_manager.play('background')
+        if self.music_on == 0:
+            self.sound_manager.play('background')
+            self.music_on = 1
 
     def add_meteor1_score(self, points=100):
         self.score += points*self.player.boostcoef
         if self.score >= 1000:
+            if self.score >= 2500:
+                self.comet_event.percent_speed = 300
+        else:
             self.comet_event.percent_speed = 200
 
     def add_meteor2_score(self, points=250):
         self.score += points*self.player.boostcoef
         if self.score >= 1000:
+            if self.score >= 2500:
+                self.comet_event.percent_speed = 300
+        else:
+            self.comet_event.percent_speed = 200
+    
+    def add_meteor3_score(self, points=400):
+        self.score += points*self.player.boostcoef
+        if self.score >= 1000:
+            if self.score >= 2500:
+                self.comet_event.percent_speed = 300
+        else:
             self.comet_event.percent_speed = 200
 
     def add_meteor1_xp(self, points=5):
-        self.player.xp += points
+        self.player.xp += points*self.player.leveldifficulty
         if self.player.xp >= self.player.max_level_xp:
             self.player.levelup()
 
     def add_meteor2_xp(self, points=10):
-        self.player.xp += points
+        self.player.xp += points*self.player.leveldifficulty
+        if self.player.xp >= self.player.max_level_xp:
+            self.player.levelup()
+
+    def add_meteor3_xp(self, points=15):
+        self.player.xp += points*self.player.leveldifficulty
         if self.player.xp >= self.player.max_level_xp:
             self.player.levelup()
 

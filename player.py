@@ -18,6 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.level = 0
         self.xp = 0
         self.max_level_xp = 100
+        self.leveldifficulty = 1
         self.attack = 22
         self.base_attack = 22
         self.attack_check = 0
@@ -108,4 +109,5 @@ class Player(pygame.sprite.Sprite):
     def levelup(self):
         self.xp = 0
         self.level += 1
+        self.leveldifficulty -= 0.2
         self.game.sound_manager.play('levelup')

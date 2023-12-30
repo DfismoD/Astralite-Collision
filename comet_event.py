@@ -1,6 +1,7 @@
 import pygame, random
 from comet import Comet
 from cometbis import Cometbis
+from cometbis3 import Cometbis3
 
 #créer la classe de l'event
 class CometFallEvent:
@@ -28,11 +29,20 @@ class CometFallEvent:
 
     def meteor_fall(self):
         if self.game.score >= 500:
-            self.number = random.randint(0, 5)
-            if self.number <= 2:
-                self.all_comets.add(Cometbis(self))
+            if self.game.score >= 1500:
+                self.number = random.randint(0, 6)
+                if self.number <= 2:
+                    self.all_comets.add(Cometbis(self))
+                elif self.number <= 4:
+                    self.all_comets.add(Cometbis3(self))
+                else :
+                    self.all_comets.add(Comet(self))
             else:
-                self.all_comets.add(Comet(self))
+                self.number = random.randint(0, 5)
+                if self.number <= 2:
+                    self.all_comets.add(Cometbis(self))
+                else:
+                    self.all_comets.add(Comet(self))
         else:
             self.all_comets.add(Comet(self))
     
