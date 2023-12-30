@@ -10,6 +10,8 @@ class SoundManager:
             'tir': pygame.mixer.Sound("Assets/sounds/tir.ogg"),
             'tir2': pygame.mixer.Sound("Assets/sounds/tir2.ogg"),
             'tir3': pygame.mixer.Sound("Assets/sounds/tir3.ogg"),
+            'tir4': pygame.mixer.Sound("Assets/sounds/tir4.ogg"),
+            'tir5': pygame.mixer.Sound("Assets/sounds/tir5.ogg"),
             'background' : pygame.mixer.Sound("Assets/sounds/Pulse.ogg"),
             'levelup' : pygame.mixer.Sound("Assets/sounds/levelup.ogg")
         }

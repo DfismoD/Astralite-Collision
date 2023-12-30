@@ -2,6 +2,8 @@ import pygame
 from projectile import Projectile
 from projectilebis import Projectile2
 from projectilebis3 import Projectile3
+from projectilebis4 import Projectile4
+from projectilebis5 import Projectile5
 import asyncio
 import time
 
@@ -65,10 +67,20 @@ class Player(pygame.sprite.Sprite):
             self.attack = 40
             self.all_projectiles.add(Projectile2(self))     
             self.game.sound_manager.play('tir2')  
-        else :
+        elif self.level == 2:
             self.attack = 55
             self.all_projectiles.add(Projectile3(self))     
-            self.game.sound_manager.play('tir3')  
+            self.game.sound_manager.play('tir3') 
+        elif self.level == 3:
+            self.attack = 75
+            self.all_projectiles.add(Projectile4(self))     
+            self.game.sound_manager.play('tir4')  
+        else :
+            self.attack = 100
+            self.all_projectiles.add(Projectile5(self))     
+            self.game.sound_manager.play('tir5')  
+
+
 
     def move_right(self):
         # si le joueur n'est pas en collision avec une entité
