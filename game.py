@@ -40,6 +40,7 @@ class Game:
 
     def start(self):
         self.is_playing = True
+        self.sound_manager.play('background')
 
     def add_meteor1_score(self, points=100):
         self.score += points*self.player.boostcoef
@@ -54,14 +55,12 @@ class Game:
     def add_meteor1_xp(self, points=5):
         self.player.xp += points
         if self.player.xp >= self.player.max_level_xp:
-            self.player.xp = 0
-            self.player.level += 1
+            self.player.levelup()
 
     def add_meteor2_xp(self, points=10):
         self.player.xp += points
         if self.player.xp >= self.player.max_level_xp:
-            self.player.xp = 0
-            self.player.level += 1
+            self.player.levelup()
 
     def game_over(self):
         save_read = open("save.txt", "r")

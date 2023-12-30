@@ -20,6 +20,7 @@ class Cometbis(pygame.sprite.Sprite):
     def damage(self, amount):
         #infliger les dégats
         self.health -= amount
+        self.comet_event.game.sound_manager.play('click')
 
         if self.health <= 0:
             self.remove()
