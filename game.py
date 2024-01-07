@@ -7,6 +7,7 @@ from comet_event import CometFallEvent
 from pointbuff import Pointbuff
 from bonus_vie import Bonus_vie
 from sounds import SoundManager
+from planet import Planet
 
 # creer une 2e classe qui va repr le jeu
 class Game:
@@ -15,12 +16,17 @@ class Game:
         self.screen = screen
         self.screen_size = screen_size
         self.is_playing = False
+        self.is_score = False
         #générer le joueur
         self.all_players = pygame.sprite.Group()
         self.player = Player(self)
         self.all_players.add(self.player)
         #genérer le manager 
         self.comet_event = CometFallEvent(self)
+        #générer la planète
+        self.all_players = pygame.sprite.Group()
+        self.planet = Planet(self)
+        self.all_players.add(self.player)
         #grp de monstres
         self.all_comets = pygame.sprite.Group()
 
@@ -42,9 +48,15 @@ class Game:
 
     def start(self):
         self.is_playing = True
+        self.planet.health = 100
         if self.music_on == 0:
             self.sound_manager.play('background')
             self.music_on = 1
+
+    def start_score(self):
+        self.is_score = True
+
+
 
     def add_meteor1_score(self, points=100):
         self.score += points*self.player.boostcoef
@@ -123,6 +135,7 @@ class Game:
                
         #appliquer l'img de mon joueur
         screen.blit(self.player.image, self.player.rect)
+        # screen.blit(self.planet.image, self.planet.rect)
 
         #actu la barre de vie du joueur
         self.player.update_health_bar(screen)
@@ -130,6 +143,9 @@ class Game:
         hp_bar = pygame.transform.scale(hp_bar,(500, 70))
         screen.blit(hp_bar, (self.screen_size[0]/20, self.screen_size[1]/1.12))
         screen.blit(score_text, (self.screen_size[0]/2.15, 50))
+
+        #actu health bar de la planète
+        # self.planet.update_planet_health_bar(screen)
 
         self.player.update_xp_bar(screen)
         xp_bar = pygame.image.load('Assets/EXP_bar.png')
@@ -181,6 +197,15 @@ class Game:
             self.player.move_left()
         if self.pressed.get(pygame.K_ESCAPE):
             self.game_over()
+
+
+    def score_update(self, screen):
+        #AFFICHER LE BOUTON QUITTER 
+        playing_quit_button = pygame.image.load('assets/Quitter.png')
+        playing_quit_button = pygame.transform.scale(playing_quit_button,(self.screen_size[0]/4, self.screen_size[1]/2.5))
+        playing_quit_button_rect = playing_quit_button.get_rect()
+        playing_quit_button_rect.x = math.ceil(self.screen_size[0] / 2.65)
+        playing_quit_button_rect.y = 120
 
 
     def spawn_monster(self):

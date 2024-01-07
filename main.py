@@ -29,6 +29,12 @@ play_button_rect = play_button.get_rect()
 play_button_rect.x = math.ceil(screen_size[0] / 2.65)
 play_button_rect.y = 120
 
+score_button = pygame.image.load('assets/Scores.png')
+score_button = pygame.transform.scale(score_button,(screen_size[0]/3, screen_size[1]/1.5))
+score_button_rect = score_button.get_rect()
+score_button_rect.x = math.ceil(screen_size[0] / 2.65)
+score_button_rect.y = 120
+
 #charger notre jeu 
 game = Game(screen, screen_size)
 
@@ -45,10 +51,13 @@ while running:
         #déclencher les instructions de la partie
         game.update(screen)
     #vérif di le jeu n'as pas commencé
+    elif game.is_score:
+        game.score_update(screen)
     else:
         #ajouter mon ecran de bienvenue
         screen.blit(play_button, play_button_rect)
         screen.blit(banner, banner_rect)
+        # screen.blit(score_button, score_button_rect)
 
         save = open("save.txt", "r")
         best_score = save.read()
@@ -91,7 +100,7 @@ while running:
                 
 
         elif event.type == pygame.KEYUP:
-            game.pressed[event.key] = False # fait office d'une fonction input dirrectement proposée par pygame
+            game.pressed[event.key] = False # fait office d'une fonction input directement proposée par pygame
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             game.sound_manager.play('click')
@@ -99,5 +108,8 @@ while running:
             if play_button_rect.collidepoint(event.pos):
                 #mettre le jeu en mode lancé
                 game.start()
+            if score_button_rect.collidepoint(event.pos):
+                #mettre le jeu en mode lancé
+                game.start_score()
 
     clock.tick(FPS)

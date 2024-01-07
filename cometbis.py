@@ -45,6 +45,7 @@ class Cometbis(pygame.sprite.Sprite):
         self.rect.y += self.velocity
 
         if self.rect.y >= 1000:
+            self.game.planet.damage()
             self.remove()
 
         if self.comet_event.game.check_collision(self, self.comet_event.game.all_players):
